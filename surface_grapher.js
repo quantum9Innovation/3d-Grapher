@@ -1,11 +1,4 @@
-var el = document.getElementById("me")
-    el.width = window.innerWidth*0.95
-    el.height = window.innerHeight*0.9
-
-var c = el.getContext("2d")
-    var w = c.canvas.width
-    var h = c.canvas.height
-
+//use canvas name `c` or replace `c` in code
 
 var x_Ra = [-5, 5]
 var y_Ra = [-5, 5]
