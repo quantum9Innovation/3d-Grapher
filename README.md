@@ -13,3 +13,7 @@ Powerful yet compact, minimal yet elegant, small yet profound.
 # Contribute!
 
 Use, contribute, and be active! Help promote a world-class graphing algorithm and get the word out!
+
+# Check it out ...
+
+<img src="https://i.ibb.co/Lx8f9nZ/Vector-Field.png" />
