@@ -17,3 +17,10 @@ Use, contribute, and be active! Help promote a world-class graphing algorithm an
 ## Check it out ...
 
 <img src="https://i.ibb.co/Lx8f9nZ/Vector-Field.png" />
+
+So you don't believe me? I know ...
+
+See it in action at
+
+1. <a src="https://quantum9innovation.github.io/graph" /> (surface_grapher.js)
+2. <a src="https://quantum9innovation.github.io/vector" /> (vector_field_grapher.js)
