@@ -22,5 +22,5 @@ So you don't believe me? I know ...
 
 See it in action at
 
-1. <a src="https://quantum9innovation.github.io/graph" /> (surface_grapher.js)
-2. <a src="https://quantum9innovation.github.io/vector" /> (vector_field_grapher.js)
+1. https://quantum9innovation.github.io/graph (surface_grapher.js)
+2. https://quantum9innovation.github.io/vector (vector_field_grapher.js)
