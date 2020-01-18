@@ -1,3 +1,5 @@
+//use canvas name `c` or replace "c" in the code
+
 var x_Ra = [-5, 5]
 var y_Ra = [-5, 5]
 var z_Ra = [-5, 5]
@@ -9,7 +11,8 @@ var max = 1
 var min = 0.5
 
 var theta = 0
-var rotationSpeed = Math.PI/75
+var alpha = 0.5
+var rotationSpeed = alpha*Math.PI/30
 
 var f1 = function(x)
 {return Math.sqrt(-Math.pow(x, 2)+1)}
@@ -242,3 +245,97 @@ var graph = function(f)
   }
 
 }
+
+var refresh = function()
+{
+
+  if ( theta >= 2*Math.PI )
+  {
+
+      theta = 0+theta-2*Math.PI
+
+  }
+
+  if ( Math.tan(theta) >= 0 )
+  {
+
+      if ( theta > Math.PI )
+      {
+
+          i_hat[0] = -Math.sqrt(-1/(-1-Math.pow(Math.tan(theta), 2)))
+          i_hat[1] = f2(i_hat[0])
+
+      }
+      else {
+
+          i_hat[0] = Math.sqrt(-1/(-1-Math.pow(Math.tan(theta), 2)))
+          i_hat[1] = f1(i_hat[0])
+
+      }
+
+  }
+  else
+  {
+
+      if ( theta > Math.PI )
+      {
+
+          i_hat[0] = Math.sqrt(-1/(-1-Math.pow(Math.tan(theta), 2)))
+          i_hat[1] = f2(i_hat[0])
+
+      }
+      else {
+
+          i_hat[0] = -Math.sqrt(-1/(-1-Math.pow(Math.tan(theta), 2)))
+          i_hat[1] = f1(i_hat[0])
+
+      }  
+
+  }
+
+  var nTheta = (theta+Math.PI/2)%(2*Math.PI)
+  if ( Math.tan(nTheta) >= 0 )
+  {
+
+      if ( nTheta > Math.PI )
+      {
+
+          j_hat[0] = -Math.sqrt(-1/(-1-Math.pow(Math.tan(nTheta), 2)))
+          j_hat[1] = f2(j_hat[0])
+
+      }
+      else {
+
+          j_hat[0] = Math.sqrt(-1/(-1-Math.pow(Math.tan(nTheta), 2)))
+          j_hat[1] = f1(j_hat[0])
+
+      }
+
+  }
+  else
+  {
+
+      if ( nTheta > Math.PI )
+      {
+
+          j_hat[0] = Math.sqrt(-1/(-1-Math.pow(Math.tan(nTheta), 2)))
+          j_hat[1] = f2(j_hat[0])
+
+      }
+      else {
+
+          j_hat[0] = -Math.sqrt(-1/(-1-Math.pow(Math.tan(nTheta), 2)))
+          j_hat[1] = f1(j_hat[0])
+
+      }  
+
+  }
+  
+  //background and graphs go here
+    
+  theta+=rotationSpeed
+  window.requestAnimationFrame(refresh)
+  
+}
+
+refresh()
