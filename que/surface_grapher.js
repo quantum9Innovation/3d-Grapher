@@ -247,5 +247,3 @@ var graph = function(f, steps, c1, c2)
     }
 
 }
-
-refresh()
