@@ -8,6 +8,7 @@ Here's what you can do:
  - Vector Fields
  - Scene Lighting
  - Surface Plotting
+ 
 Everything can be described mathematically (graph of x, y axes, parametric, etc.) or as a more natural series of planes stacked on top of each other to form basic shapes (i.e. a cube). This flexibility allows for faster 3d graphics and speeds up the design process immensely.
 
 ## Contribute!
