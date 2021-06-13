@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>BG Testing</title>
+        <title>Demo Grapher</title>
     </head>
     <body> 
 <p>Enter a JS math equation<br>
@@ -15,121 +15,41 @@ using x, y, k, and theta:</p>
     </body>
     
     <script>
-        var equation;
+        var equation
         const ieq = () => {
-            equation = document.getElementById("ieq").value;
+            equation = document.getElementById("ieq").value
             animateGraph()
         }
 
         const animateGraph = () => {
             var el = document.getElementById("bg")
-            el.width = 2000
-            el.height = 2000
-            if (el.width < el.height) {
-                el.height = 0.66 * el.width
-            } else {
-                el.width = el.height
-                el.height *= 0.66
-            }
+            var theta, tanTheta, tanThetaSquared
+            var nTheta, tanNTheta, tanNThetaSquared
+            theta = tanTheta = tanThetaSquared = 0
 
-            var c = el.getContext("2d")
-            var w = c.canvas.width
-            var h = c.canvas.height
+            el.width = 2100 // Make sure to keep this width-height 3:2 ratio
+            el.height = 1400
 
-            var x_Ra = [-5, 5]
-            var y_Ra = [-5, 5]
+            const c = el.getContext("2d")
+            const w = c.canvas.width
+            const h = c.canvas.height
 
-            let theta = 0
-            let lightSource = [2.5, 2.5, 2.5]
+            const x_Ra = [-5, 5] // x-range of graph
+            const y_Ra = [-5, 5] // y-range of graph
 
-            const f1 = (x) => {
-                return Math.sqrt(-(x * x) + 1)
-            }
+            var lightSource = [2.5, 2.5, 2.5]
 
-            const f2 = (x) => {
-                return -Math.sqrt(-(x * x) + 1)
-            }
+            var i_hat = [1, 0]
+            var j_hat = [1255.77, 0.999]
 
-            let i_hat = [1, 0]
-            let j_hat = [0, 1]
 
-            let tanTheta = 0
-            let tanThetaSquared = 0
-
-            if (tanTheta >= 0) {
-
-                if (theta > 3.14) {
-
-                    i_hat[0] = -1
-                    i_hat[1] = 0
-
-                } else {
-
-                    i_hat[0] = 1
-                    i_hat[1] = 0
-
-                }
-
-            } else {
-
-                if (theta > 3.14) {
-
-                    i_hat[0] = 1 
-                    i_hat[1] = 0
-
-                } else {
-
-                    i_hat[0] = -1 
-                    i_hat[1] = 0
-
-                }
-
-            }
-        
-            let nTheta = 1.57
-            let tanNTheta = 1255.77
-            let tanNThetaSquared = 1576958.29
-            if (tanNTheta >= 0) {
-
-                if (nTheta > 3.14) {
-
-                    j_hat[0] = -Math.sqrt(-1 / (-1 - tanNThetaSquared))
-                    j_hat[1] = f2(j_hat[0])
-
-                } else {
-
-                    j_hat[0] = Math.sqrt(-1 / (-1 - tanNThetaSquared))
-                    j_hat[1] = f1(j_hat[0])
-
-                }
-
-            } else {
-
-                if (nTheta > 3.14) {
-
-                    j_hat[0] = Math.sqrt(-1 / (-1 - tanNThetaSquared))
-                    j_hat[1] = f2(j_hat[0])
-
-                } else {
-
-                    j_hat[0] = -Math.sqrt(-1 / (-1 - tanNThetaSquared))
-                    j_hat[1] = f1(j_hat[0])
-
-                }
-
-            }
-
-            const mini = (x) => {
-
-                return x / (x + 1)
-
-            }
+            const mini = (x) => x / (x + 1)
             
             const blend = (c, int) => {
 
-                let mi = 0
-                let max = 0
-                for (let i = 0; i < c.length; i++) {
+                var mi = 0
+                var max = 0
+                for (var i = 0; i < c.length; i++) {
 
                     if (c[i] > max) {
 
@@ -139,59 +59,51 @@ using x, y, k, and theta:</p>
                     }
 
                 }
-                r = [255 * int * c[0] / c[mi], 255 * int * c[1] / c[mi], 255 * int * c[2] / c[mi]]
-                return r
+                var int255 = 255 * int
+                return [int255 * c[0] / c[mi], int255 * c[1] / c[mi], int255 * c[2] / c[mi]]
 
             }
             
             const co = (rad) => {
-
-                if (rad > 3.14) {
-                    return rad - 3.14
-                } else if (rad < -3.14) {
-                    return rad + 3.14
-                } else {
-                    return rad
-                }
+                
+                if (rad > 3.14159) return rad - 3.14159
+                if (rad < -3.14159) return rad + 3.14159
+                return rad
             }
             
             const brightness = (x, y, z, lTheta, lPhi) => {
 
-                displacement = ((x_Ra[1] * x_Ra[1] >> 2) + (y_Ra[1] * y_Ra[1] >> 2)) / Math.max((x - lightSource[0]) * (x - lightSource[0]) + (y - lightSource[1]) * (y - lightSource[1]) + (z - lightSource[2]) * (z - lightSource[2]), 0.01)
+                displacement = ((x_Ra[1] * x_Ra[1] / 4) + (y_Ra[1] * y_Ra[1] / 4)) / Math.max((x - lightSource[0]) * (x - lightSource[0]) + (y - lightSource[1]) * (y - lightSource[1]) + (z - lightSource[2]) * (z - lightSource[2]), 0.01)
                 angSTheta = -co(Math.atan(lightSource[1] / Math.max(lightSource[0], 0.01)))
                 distL = Math.sqrt(lightSource[0] * lightSource[0] + lightSource[1] * lightSource[1])
                 angSPhi = -co(Math.atan(lightSource[2] / Math.max(distL, 0.01)))
                 angLTheta = 1 / Math.max( (angSTheta - co(lTheta)) * (angSTheta - co(lTheta)), 0.01)
                 angLPhi = 1 / Math.max( (angSPhi - co(lPhi)) * (angSPhi - co(lPhi)) , 0.01)
-                return mini(20 * mini(displacement) * mini(angLTheta) * mini(angLPhi)) // 20 represent luminosity level
+                return mini(20 * mini(displacement) * mini(angLTheta) * mini(angLPhi)) // 20 represents luminosity level
 
-            };
+            }
             
             const project2d = (x, y, z) => {
 
                 away = (y - y_Ra[0]) / (y_Ra[1] - y_Ra[0])
-                avg = (y_Ra[1] - y_Ra[0] + x_Ra[1] - x_Ra[0]) >> 1
+                avg = (y_Ra[1] - y_Ra[0] + x_Ra[1] - x_Ra[0]) / 2
                 return [0.25 * away + (-0.5 * away + 1) * (x - x_Ra[0]) / (x_Ra[1] - x_Ra[0]), away + z / avg]
 
             }
 
-            const project = (x, y, z) => {
+            const project = (x, y, z) => project2d(i_hat[0] * x + j_hat[0] * y, i_hat[1] * x + j_hat[1] * y, z)
 
-                return project2d(i_hat[0] * x + j_hat[0] * y, i_hat[1] * x + j_hat[1] * y, z)
-
-            }
-
-            let evalPts = []
+            var evalPts = []
             const genEval = (f, steps) => {
 
                 evalPts = []
-                let i = 0
-                let x = x_Ra[0]
+                var i = 0
+                var x = x_Ra[0]
                 while (i <= steps) {
 
                     evalPts.push([])
-                    let y = y_Ra[0]
-                    let counter = 0
+                    var y = y_Ra[0]
+                    var counter = 0
 
                     while (counter <= steps) {
 
@@ -213,36 +125,30 @@ using x, y, k, and theta:</p>
 
             const graph = (f, steps, c1, c2) => {
 
-                let ix = 0
-                let iy = 0
+                var ix = 0
+                var iy = 0
 
                 genEval(f, steps)
 
-                let start = [x_Ra[0], y_Ra[0]]
-//              let end = [x_Ra[1], y_Ra[1]] // variable is undeclared
-                let sizes = [(x_Ra[1] - x_Ra[0]) / steps, (y_Ra[1] - y_Ra[0]) / steps]
+                var start = [x_Ra[0], y_Ra[0]]
+                var sizes = [(x_Ra[1] - x_Ra[0]) / steps, (y_Ra[1] - y_Ra[0]) / steps]
 
-                let x = start[0]
+                var x = start[0]
                 while (ix < steps) {
 
                     iy = 0
-                    let y = start[1]
+                    var y = start[1]
                     while (iy < steps) {
 
-                        var lTheta = ( Math.atan((evalPts[ix + 1][iy] - evalPts[ix][iy]) / sizes[0]) + Math.atan((evalPts[ix + 1][iy + 1] - evalPts[ix][iy + 1]) / sizes[0])) >> 1
-                        var lPhi = ( Math.atan((evalPts[ix][iy + 1] - evalPts[ix][iy]) / sizes[1]) + Math.atan((evalPts[ix + 1][iy + 1] - evalPts[ix + 1][iy]) / sizes[1])) >> 1
+                        var lTheta = ( Math.atan((evalPts[ix + 1][iy] - evalPts[ix][iy]) / sizes[0]) + Math.atan((evalPts[ix + 1][iy + 1] - evalPts[ix][iy + 1]) / (sizes[0])) / 2)
+                        var lPhi = ( Math.atan((evalPts[ix][iy + 1] - evalPts[ix][iy]) / sizes[1]) + Math.atan((evalPts[ix + 1][iy + 1] - evalPts[ix + 1][iy]) / (sizes[1])) / 2)
                         var light = brightness(x, y, evalPts[ix][iy], lTheta, lPhi)
                         
                         c1 = blend(c1, light)
                         c2 = blend(c2, light)
                         
-                        if (ix % 2 == iy % 2) {
-                            c.fillStyle = "rgb(" + c1[0] + "," + c1[1] + "," + c1[2] + ")"
-                            
-                        } else {
-                            c.fillStyle = "rgb(" + c2[0] + "," + c2[1] + "," + c2[2] + ")"
-                            
-                        }
+                        if (ix % 2 == iy % 2) c.fillStyle = "rgb(" + c1[0] + "," + c1[1] + "," + c1[2] + ")"
+                        else c.fillStyle = "rgb(" + c2[0] + "," + c2[1] + "," + c2[2] + ")"
 
                         p1 = project(x, y, evalPts[ix][iy])
                         p2 = project(x + (x_Ra[1] - x_Ra[0]) / steps, y, evalPts[ix + 1][iy])
@@ -250,11 +156,13 @@ using x, y, k, and theta:</p>
                         p4 = project(x, y + (y_Ra[1] - y_Ra[0]) / steps, evalPts[ix][iy + 1])
 
                         c.beginPath()
-                        c.moveTo((w >> 2) + (w >> 1) * p1[0], (h >> 2) + (h >> 1) * p1[1])
-                        c.lineTo((w >> 2) + (w >> 1) * p2[0], (h >> 2) + (h >> 1) * p2[1])
-                        c.lineTo((w >> 2) + (w >> 1) * p3[0], (h >> 2) + (h >> 1) * p3[1])
-                        c.lineTo((w >> 2) + (w >> 1) * p4[0], (h >> 2) + (h >> 1) * p4[1])
-                        c.lineTo((w >> 2) + (w >> 1) * p1[0], (h >> 2) + (h >> 1) * p1[1])
+                        var w4 = w / 4
+                        var h4 = h / 4
+                        c.moveTo(w4 * (2 * p1[0] + 1), h4 * (2 * p1[1] + 1))
+                        c.lineTo(w4 * (2 * p2[0] + 1), h4 * (2 * p2[1] + 1))
+                        c.lineTo(w4 * (2 * p3[0] + 1), h4 * (2 * p3[1] + 1))
+                        c.lineTo(w4 * (2 * p4[0] + 1), h4 * (2 * p4[1] + 1))
+                        c.lineTo(w4 * (2 * p1[0] + 1), h4 * (2 * p1[1] + 1))
                         c.fill()
 
                         iy++
@@ -271,10 +179,7 @@ using x, y, k, and theta:</p>
 
             var k = 1
 
-            const f = (x, y) => {
-                return k * eval(equation)
-
-            };
+            const f = (x, y) => k * eval(equation)
 
             c1 = [0, 200, 255]
             c1d = [0, 255, 0]
@@ -288,65 +193,68 @@ using x, y, k, and theta:</p>
                     theta -= 6
 
                 }
-
+                let val = Math.sqrt(1 / (tanThetaSquared + 1))
+                let eval = Math.sqrt(-(i_hat[0] * i_hat[0]) + 1)
                 if (tanTheta >= 0) {
 
-                    if (theta > 3.14) {
+                    if (theta > 3.14159) {
 
-                        i_hat[0] = -Math.sqrt(-1 / (-1 - tanThetaSquared))
-                        i_hat[1] = f2(i_hat[0])
+                        i_hat[0] = -val 
+                        i_hat[1] = -eval
 
                     } else {
 
-                        i_hat[0] = Math.sqrt(-1 / (-1 - tanThetaSquared))
-                        i_hat[1] = f1(i_hat[0])
+                        i_hat[0] = val
+                        i_hat[1] = eval
 
                     }
 
                 } else {
 
-                    if (theta > 3.14) {
+                    if (theta > 3.14159) {
 
-                        i_hat[0] = Math.sqrt(-1 / (-1 - tanThetaSquared))
-                        i_hat[1] = f2(i_hat[0])
+                        i_hat[0] = val 
+                        i_hat[1] = -eval
 
                     } else {
 
-                        i_hat[0] = -Math.sqrt(-1 / (-1 - tanThetaSquared))
-                        i_hat[1] = f1(i_hat[0])
+                        i_hat[0] = -val 
+                        i_hat[1] = eval
 
                     }
 
                 }
 
-                var nTheta = (theta + 1.57) % 6
+                var nTheta = (theta + 1.570795) % 6
                 tanNTheta = Math.tan(nTheta)
                 tanNThetaSquared = tanNTheta * tanNTheta
+                let val2 = Math.sqrt(1 / (tanNThetaSquared + 1))
+                let eval2 = Math.sqrt(-(j_hat[0] * j_hat[0]) + 1)
                 if (tanNTheta >= 0) {
 
-                    if (nTheta > 3.14) {
+                    if (nTheta > 3.14159) {
 
-                        j_hat[0] = -Math.sqrt(-1 / (-1 - tanNThetaSquared))
-                        j_hat[1] = f2(j_hat[0])
+                        j_hat[0] = -val2
+                        j_hat[1] = -eval2
 
                     } else {
 
-                        j_hat[0] = Math.sqrt(-1 / (-1 - tanNThetaSquared))
-                        j_hat[1] = f1(j_hat[0])
+                        j_hat[0] = val2
+                        j_hat[1] = eval2
 
                     }
 
                 } else {
 
-                    if (nTheta > 3.14) {
+                    if (nTheta > 3.14159) {
 
-                        j_hat[0] = Math.sqrt(-1 / (-1 - tanNThetaSquared))
-                        j_hat[1] = f2(j_hat[0])
+                        j_hat[0] = val2
+                        j_hat[1] = -eval2
 
                     } else {
 
-                        j_hat[0] = -Math.sqrt(-1 / (-1 - tanNThetaSquared))
-                        j_hat[1] = f1(j_hat[0])
+                        j_hat[0] = -val2 
+                        j_hat[1] = eval2
 
                     }
 
@@ -355,7 +263,7 @@ using x, y, k, and theta:</p>
                 c.fillStyle = "black"
                 c.fillRect(0, 0, w, h)
 
-                graph(f, 50, c1, c1d)
+                graph(f, 64, c1, c1d) // 64 represents graph square amount
                 if (k >= 1) {
                     v = false
                 }
@@ -368,7 +276,7 @@ using x, y, k, and theta:</p>
                     k -= 0.05
                 }
 
-                theta += 0.005 // 0.005 represents rotation speed
+                theta += 0.005 // 0.005 represent rotation speed
                 window.requestAnimationFrame(refresh)
 
             }
@@ -377,4 +285,3 @@ using x, y, k, and theta:</p>
         }
     </script>
 </html>
-\
