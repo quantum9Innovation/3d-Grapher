@@ -233,11 +233,11 @@
 
                 }
 
-                var nTheta = (theta + 1.570795) % 6.28318
-                var tanNTheta = Math.tan(nTheta)
-                var tanNThetaSquared = tanNTheta * tanNTheta
-                var val2 = Math.sqrt(1 / (tanNThetaSquared + 1))
-                var eval2 = Math.sqrt(-(j_hat[0] * j_hat[0]) + 1)
+                let nTheta = (theta + 1.570795) % 6.28318
+                let tanNTheta = Math.tan(nTheta)
+                let tanNThetaSquared = tanNTheta * tanNTheta
+                let val2 = Math.sqrt(1 / (tanNThetaSquared + 1))
+                let eval2 = Math.sqrt(-(j_hat[0] * j_hat[0]) + 1)
                 if (tanNTheta >= 0) {
 
                     if (nTheta > 3.14159) {
