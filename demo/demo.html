@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Demo Grapher</title>
+        <script src="demo.js" type="text/javascript"></script>
+    </head>
+    <body> 
+<p>Enter a JS math equation<br>
+using x, y, k, and theta:</p>
+<div style="color: white; z-index: 5;">
+    <input style="border-radius: 1rem;" id="ieq" value="Math.sin(k*x)*Math.cos(y/k)" type="text"><br>
+</div>
+<p>change graph accuracy<br>
+    <input type="range" min="16" max="128" value="64" class="slider" id="squareCount"><br>
+</p>
+<p>High Quality Shading<br>
+<select name="highQuality" id="highQuality">
+    <option value="on">On</option>
+    <option value="off" selected="selected">Off</option>
+</select>
+</p>
+
+<div>
+    <button style="border-radius: 1rem;" onclick="ieq();" type="button" id="1">Save</button>
+    <button style="border-radius: 1rem; display:none;" onclick="cancel();ieq();" type="button" id="2">Save</button>
+</div>
+    <canvas style="width: 80%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" id="bg">Start streaming on a modern browser!</canvas>
+    </body>
+
+</html>
