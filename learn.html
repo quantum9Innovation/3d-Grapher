@@ -9,7 +9,8 @@
 using x, y, k, and theta:</p>
 <div style="color: white; z-index: 5;">
    <input style="border-radius: 1rem;" id="ieq" value="Math.sin(k*x)*Math.cos(y/k)" type="text"><br>
-    <button style="border-radius: 1rem;" onclick="ieq()" type="button">Save</button>
+    <button style="border-radius: 1rem;" onclick="ieq();" type="button" id="1">Save</button>
+    <button style="border-radius: 1rem; display:none;" onclick="cancel();ieq();" type="button" id="2">Save</button>
 </div>
     <canvas style="width: 80%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" id="bg">Start streaming on a modern browser!</canvas>
     </body>
@@ -17,7 +18,10 @@ using x, y, k, and theta:</p>
     <script>
         var equation
         const ieq = () => {
-            if (equation == document.getElementById("ieq").value) return
+            savebutton = document.getElementById("1")
+            savebutton.style.display = "none"
+            againbutton = document.getElementById('2')
+            againbutton.style.display = "block"
             equation = document.getElementById("ieq").value
             animateGraph()
         }
@@ -235,11 +239,15 @@ using x, y, k, and theta:</p>
                     k -= 0.05
                 }
 
-                window.requestAnimationFrame(refresh)
-
+                theta += 0.005 // 0.005 represent rotation speed
+                animate = window.requestAnimationFrame(refresh)
             }
 
             refresh()
+        }
+
+        const cancel = () => {
+            window.cancelAnimationFrame(animate)
         }
     </script>
 </html>
